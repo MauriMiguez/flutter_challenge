@@ -5,7 +5,7 @@ import 'package:flutter_challenge/create_category/bloc/create_category_cubit.dar
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
-import 'create_category_service.dart';
+import '../common/services/categories_service.dart';
 
 class CreateCategory extends StatelessWidget {
   const CreateCategory({Key? key}) : super(key: key);
