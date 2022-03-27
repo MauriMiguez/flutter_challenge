@@ -1,8 +1,7 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../create_category_service.dart';
+import '../../common/services/categories_service.dart';
 import '../exceptions/already_exists_category_exception.dart';
 
 part 'create_category_state.dart';
