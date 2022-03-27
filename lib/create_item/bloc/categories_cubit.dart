@@ -4,11 +4,10 @@ import '../../common/models/category.dart';
 
 part 'categories_state.dart';
 
-class CategoriesBloc extends Cubit<CategoriesState>{
+class CategoriesCubit extends Cubit<CategoriesState> {
   final CategoriesService _categoriesService;
 
-  CategoriesBloc(this._categoriesService) : super(CategoriesInitial()) ;
-
+  CategoriesCubit(this._categoriesService) : super(CategoriesInitial());
 
   Future<void> getCategories() async {
     emit(CategoriesLoading());
