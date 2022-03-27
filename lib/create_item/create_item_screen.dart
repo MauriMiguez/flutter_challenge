@@ -13,15 +13,9 @@ import 'services/images_service.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
-class CreateItem extends StatefulWidget {
+class CreateItem extends StatelessWidget {
   const CreateItem({Key? key}) : super(key: key);
 
-  @override
-  _CreateItemState createState() => _CreateItemState();
-}
-
-class _CreateItemState extends State<CreateItem>
-    with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_challenge/shopping_list/shopping_list_screen.dart';
 import '../create_item_and_category/create_item_and_category_screen.dart';
 import 'bloc/drawer_navigation_cubit.dart';
 
@@ -50,13 +50,13 @@ class NavigationDrawerScreen extends StatelessWidget {
   Widget _showSelectedScreen(NavigationDrawerCubit navigationDrawerCubit) {
     switch (navigationDrawerCubit.state.selectedDestination) {
       case 0:
-        return Container();
+        return ShoppingList();
       case 1:
         return CreateItemAndCategory();
       case 2:
         return Container();
       default:
-        return Container();
+        return ShoppingList();
     }
   }
 }
