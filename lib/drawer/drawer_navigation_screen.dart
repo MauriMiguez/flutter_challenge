@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_challenge/favorite_list/favorite_list_screen.dart';
 import 'package:flutter_challenge/shopping_list/shopping_list_screen.dart';
 import '../create_item_and_category/create_item_and_category_screen.dart';
 import 'bloc/drawer_navigation_cubit.dart';
@@ -23,6 +24,8 @@ class NavigationDrawerScreen extends StatelessWidget {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[
+                  _drawersHeader(),
+                  const Divider(height: 1, thickness: 1),
                   _customListTile(Icons.shopping_cart, 'Shopping list', 0,
                       state.selectedDestination, navigationDrawerCubit),
                   _customListTile(Icons.add, 'Create', 1,
@@ -37,6 +40,34 @@ class NavigationDrawerScreen extends StatelessWidget {
         }));
   }
 
+  Widget _drawersHeader(){
+    return DrawerHeader(
+      decoration: BoxDecoration(
+        color: Colors.blue,
+      ),
+      child:  Padding(
+      padding: const EdgeInsets.all(12.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Flutter Challenge',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24
+              ),
+          ),
+        SizedBox(height: 4,),
+        Text('Mauricio Miguez',
+          style: TextStyle(
+              color: Colors.grey[800],
+              fontSize: 22
+          ),
+        ),
+      ],
+    )),
+    );
+  }
   Widget _customListTile(IconData icon, String name, int screenNumber,
       int selectedDestination, NavigationDrawerCubit navigationDrawerCubit) {
     return ListTile(
@@ -54,7 +85,7 @@ class NavigationDrawerScreen extends StatelessWidget {
       case 1:
         return CreateItemAndCategory();
       case 2:
-        return Container();
+        return FavoriteList();
       default:
         return ShoppingList();
     }
