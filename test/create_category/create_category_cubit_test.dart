@@ -61,5 +61,21 @@ void main() {
       ],
     );
 
+    blocTest<CreateCategoryCubit, CreateCategoryState>(
+      'Create category. Successful',
+      build: () => categoriesCubit!,
+      setUp: () => when(() => mockCategoriesRepository!
+          .createCategory(name, Colors.red.value))
+          .thenAnswer((invocation) => Future.value(null)),
+      seed: () => ChangeField(
+          name: name,
+          color: Colors.red),
+      act: (cubit) => cubit.CreateCategory(),
+      expect: () => [
+        CreateCategoryLoading(name: name, color: Colors.red),
+        CreateCategoryLoaded()
+      ],
+    );
+
   });
 }
