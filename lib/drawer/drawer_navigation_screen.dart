@@ -1,16 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../create_item_and_category/create_item_and_category_screen.dart';
 import 'bloc/drawer_navigation_cubit.dart';
 
-class NavigationDrawerScreen extends StatefulWidget {
+class NavigationDrawerScreen extends StatelessWidget {
   const NavigationDrawerScreen({Key? key}) : super(key: key);
 
-  @override
-  _NavigationDrawerScreenState createState() => _NavigationDrawerScreenState();
-}
-
-class _NavigationDrawerScreenState extends State<NavigationDrawerScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -46,8 +42,8 @@ class _NavigationDrawerScreenState extends State<NavigationDrawerScreen> {
     return ListTile(
       leading: Icon(icon),
       title: Text(name),
-      selected: selectedDestination == 2,
-      onTap: () => navigationDrawerCubit.changeSelectedScreen(2),
+      selected: selectedDestination == screenNumber,
+      onTap: () => navigationDrawerCubit.changeSelectedScreen(screenNumber),
     );
   }
 
@@ -56,7 +52,7 @@ class _NavigationDrawerScreenState extends State<NavigationDrawerScreen> {
       case 0:
         return Container();
       case 1:
-        return Container();
+        return CreateItemAndCategory();
       case 2:
         return Container();
       default:
