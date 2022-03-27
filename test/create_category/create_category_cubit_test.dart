@@ -52,5 +52,14 @@ void main() {
       ],
     );
 
+    blocTest<CreateCategoryCubit, CreateCategoryState>(
+      'Create category. Error empty name',
+      build: () => categoriesCubit!,
+      act: (cubit) => cubit.CreateCategory(),
+      expect: () => [
+        NameError(nameError: 'Name is empty', name: '', color: Colors.red)
+      ],
+    );
+
   });
 }
