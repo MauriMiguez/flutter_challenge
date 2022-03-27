@@ -1,9 +1,12 @@
 part of 'create_item_cubit.dart';
 
-abstract class CreateItemState {
-  String category = '';
+abstract class CreateItemState extends Equatable {
   String name = '';
+  String category = '';
   File? image;
+
+  @override
+  List<Object> get props => [name, category];
 }
 
 class CreateItemInitial extends CreateItemState {}

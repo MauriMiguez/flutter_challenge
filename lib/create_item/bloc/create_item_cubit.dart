@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_challenge/create_item/exceptions/upload_file_exception.dart';
 import '../../common/services/items_service.dart';
@@ -11,7 +12,7 @@ class CreateItemCubit extends Cubit<CreateItemState> {
   final ItemsService itemsService;
   final ImagesStorage imagesStorage;
 
-  CreateItemCubit({required this.itemsService, required this.imagesStorage})
+  CreateItemCubit(this.itemsService, this.imagesStorage)
       : super(CreateItemInitial());
 
   void onChangeName(String name) {
