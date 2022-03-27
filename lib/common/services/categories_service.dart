@@ -89,4 +89,33 @@ class CategoriesService {
       await categoryCollection.doc(categoryId).delete();
     }
   }
+
+  Future<List<CategoryWithItem>> getCategoriesWithFavoriteItems() async {
+    final categoryCollection = FirebaseFirestore.instance
+        .collection('category')
+        .withConverter<CategoryWithItem>(
+      fromFirestore: (snapshot, _) =>
+          CategoryWithItem.fromSnapshot(snapshot.data()!),
+      toFirestore: (category, _) => category.toJson(),
+    );
+
+    List<QueryDocumentSnapshot<CategoryWithItem>> documentSnapshots =
+    await categoryCollection.get().then((snapshot) => snapshot.docs);
+
+    List<CategoryWithItem> categories =
+    documentSnapshots.map((doc) => doc.data()).toList();
+
+    List<CategoryWithItem> categoriesWithItems = List.empty(growable: true);
+    for (var element in categories) {
+      var items = await ItemsService().getFavoriteItemsFromCategory(element.name);
+      if(items.isNotEmpty){
+        var newCategory = CategoryWithItem(
+            name: element.name, color: element.color, items: items);
+        categoriesWithItems.add(newCategory);
+      }
+    }
+
+    return categoriesWithItems;
+  }
+
 }
