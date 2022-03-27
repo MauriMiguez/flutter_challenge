@@ -1,8 +1,5 @@
-
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_challenge/common/models/category.dart';
 import 'package:flutter_challenge/common/services/categories_service.dart';
 import 'package:flutter_challenge/create_category/bloc/create_category_cubit.dart';
 import 'package:flutter_challenge/create_category/exceptions/already_exists_category_exception.dart';
@@ -77,5 +74,20 @@ void main() {
       ],
     );
 
+    blocTest<CreateCategoryCubit, CreateCategoryState>(
+      'Create category. Error already registered with name',
+      build: () => categoriesCubit!,
+      setUp: () => when(() => mockCategoriesRepository!
+          .createCategory(name, Colors.red.value))
+          .thenThrow(exception),
+      seed: () => ChangeField(
+          name: name,
+          color: Colors.red),
+      act: (cubit) => cubit.CreateCategory(),
+      expect: () => [
+        CreateCategoryLoading(name: name, color: Colors.red),
+        CreateCategoryError(error:exception.message, name: name, color: Colors.red)
+      ],
+    );
   });
 }
