@@ -101,4 +101,39 @@ class ItemsService {
 
     return await batch.commit();
   }
+
+  Future<List<Item>> getFavoriteItemsFromCategory(String category) async {
+    final itemCollection =
+    FirebaseFirestore.instance.collection('items').withConverter<Item>(
+      fromFirestore: (snapshot, _) =>
+          Item.fromSnapshot(snapshot.id, snapshot.data()!),
+      toFirestore: (item, _) => item.toJson(),
+    );
+
+    List<QueryDocumentSnapshot<Item>> documentSnapshots = await itemCollection
+        .where('category', isEqualTo: category)
+        .where('isFav', isEqualTo: true)
+        .get()
+        .then((snapshot) => snapshot.docs);
+
+    List<Item> items = documentSnapshots.map((doc) => doc.data()).toList();
+    return items;
+  }
+
+  Future<void> unFavItem(String name) async {
+    final itemCollection =
+    FirebaseFirestore.instance.collection('items').withConverter<Item>(
+      fromFirestore: (snapshot, _) =>
+          Item.fromSnapshot(snapshot.id, snapshot.data()!),
+      toFirestore: (item, _) => item.toJson(),
+    );
+    final querySnapshot =
+    await itemCollection.where('name', isEqualTo: name).get();
+
+    if (querySnapshot.docs.first.exists) {
+      String itemId = querySnapshot.docs.first.id;
+
+      await itemCollection.doc(itemId).update({'isFav': false});
+    }
+  }
 }
