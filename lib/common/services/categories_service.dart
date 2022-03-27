@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'exceptions/already_exists_category_exception.dart';
-import 'models/category.dart';
+import '../../create_category/exceptions/already_exists_category_exception.dart';
+import '../models/category.dart';
 
 class CategoriesService {
 
@@ -23,5 +23,21 @@ class CategoriesService {
     }else{
       throw const AlreadyExistsCategoryException();
     }
+  }
+
+  Future<List<Category>> getAllCategories() async {
+    final categoryCollection =
+    FirebaseFirestore.instance.collection('category')
+        .withConverter<Category>(
+      fromFirestore: (snapshot, _) =>
+          Category.fromSnapshot(snapshot.data()!),
+      toFirestore: (category, _) => category.toJson(),
+    );
+
+    List<QueryDocumentSnapshot<Category>> documentSnapshots = await categoryCollection.get().then((snapshot) => snapshot.docs);
+
+    List<Category> categories = documentSnapshots.map((doc) => doc.data()).toList();
+
+    return categories;
   }
 }
