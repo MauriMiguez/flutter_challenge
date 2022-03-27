@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_challenge/shopping_list/shopping_list_screen.dart';
-import 'create_item_and_category/create_item_and_category_screen.dart';
 import 'drawer/drawer_navigation_screen.dart';
 
 void main() {
@@ -23,15 +21,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
 
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
             return Container();
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            return Text('Connection done');
+            return NavigationDrawerScreen();
           }
           return const Center(
             child: CircularProgressIndicator(),
