@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../common/services/categories_service.dart';
@@ -10,7 +11,7 @@ class CreateCategoryCubit extends Cubit<CreateCategoryState>{
 
   final CategoriesService categoriesService;
 
-  CreateCategoryCubit({required this.categoriesService}): super (CreateCategoryInitial());
+  CreateCategoryCubit(this.categoriesService): super (CreateCategoryInitial());
 
 
   void onChangeName(String name){

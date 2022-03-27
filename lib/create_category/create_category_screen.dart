@@ -13,7 +13,7 @@ class CreateCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          CreateCategoryCubit(categoriesService: CategoriesService()),
+          CreateCategoryCubit(CategoriesService()),
       child: Builder(builder: (context) {
         final createCategoryCubit =
             BlocProvider.of<CreateCategoryCubit>(context);
