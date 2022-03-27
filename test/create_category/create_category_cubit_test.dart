@@ -41,6 +41,16 @@ void main() {
       ],
     );
 
+    blocTest<CreateCategoryCubit, CreateCategoryState>(
+      'Change color',
+      build: () => categoriesCubit!,
+      act: (cubit) => cubit.onChangeColor(Colors.blue),
+      expect: () => [
+        ChangeField(
+            name: '',
+            color: Colors.blue),
+      ],
+    );
 
   });
 }
