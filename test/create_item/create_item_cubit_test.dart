@@ -41,5 +41,14 @@ void main() {
         ChangeField(name:name, category: '', image: null),
       ],
     );
+
+    blocTest<CreateItemCubit, CreateItemState>(
+      'Change category',
+      build: () => itemCubit!,
+      act: (cubit) => cubit.onChangeCategory(category),
+      expect: () => [
+        ChangeField(name:'', category: category, image: null),
+      ],
+    );
   });
 }
