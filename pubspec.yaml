@@ -43,6 +43,9 @@ dependencies:
   firebase_storage: ^10.2.9
   image_picker: ^0.8.4+11
   intl: ^0.17.0
+  mocktail: ^0.3.0
+  bloc_test: ^9.0.3
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:

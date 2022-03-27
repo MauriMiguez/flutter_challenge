@@ -1,8 +1,11 @@
 part of 'create_category_cubit.dart';
 
-abstract class CreateCategoryState {
+abstract class CreateCategoryState extends Equatable {
   Color color = Colors.red;
   String name = '';
+
+  @override
+  List<Object> get props => [name, color];
 }
 
 class CreateCategoryInitial extends CreateCategoryState {}
