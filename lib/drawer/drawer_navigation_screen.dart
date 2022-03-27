@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_challenge/favorite_list/favorite_list_screen.dart';
 import 'package:flutter_challenge/shopping_list/shopping_list_screen.dart';
 import '../create_item_and_category/create_item_and_category_screen.dart';
 import 'bloc/drawer_navigation_cubit.dart';
@@ -54,7 +55,7 @@ class NavigationDrawerScreen extends StatelessWidget {
       case 1:
         return CreateItemAndCategory();
       case 2:
-        return Container();
+        return FavoriteList();
       default:
         return ShoppingList();
     }
