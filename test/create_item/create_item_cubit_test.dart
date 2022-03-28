@@ -136,6 +136,21 @@ void main() {
       ],
     );
 
-
+    blocTest<CreateItemCubit, CreateItemState>(
+      'Create item',
+      build: () => itemCubit!,
+      setUp: () {
+        when(() => mockImagesRepository!.uploadImage(file))
+            .thenAnswer((invocation) => Future.value(file.path));
+        when(() => mockItemsRepository!.createItem(name, file.path, category))
+            .thenAnswer((invocation) => Future.value());
+      },
+      seed: () => ChangeField(name: name, category: category, image: file),
+      act: (cubit) => cubit.createItem(),
+      expect: () => [
+        CreateItemLoading(name: name, category: category, image: file),
+        CreateItemLoaded(category: category)
+      ],
+    );
   });
 }
