@@ -115,5 +115,38 @@ void main() {
       ],
     );
 
+    List<CategoryWithItem>? categoryListWithFavItem;
+    blocTest<ShoppingListCubit, ShoppingListState>(
+      'Fav item',
+      build: () => shoppingListCubit!,
+      setUp: () {
+        List<Item> itemListWithFav = List.of([
+          item1!,
+          Item(
+              name: item2!.name,
+              category: item2!.category,
+              isFav: true,
+              favDate: item2!.favDate)
+        ], growable: true);
+
+        CategoryWithItem categoryWithFavItem = CategoryWithItem(
+            name: oneCategory!.name,
+            color: oneCategory!.color,
+            items: itemListWithFav);
+        categoryListWithFavItem =
+            List.of([categoryWithFavItem, twoCategory!], growable: true);
+        when(() => mockItemsRepository!.favItem(item2!.name))
+            .thenAnswer((invocation) => Future.value());
+      },
+      seed: () => ShoppingListLoaded(categoriesWithItems!),
+      act: (cubit) {
+        cubit.favItem(0, 1);
+      },
+      expect: () => [
+        ItemSavedAsFavorite(
+            item: item2!.name, shoppingList: categoryListWithFavItem!),
+      ],
+    );
+
   });
 }
