@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_challenge/create_item/exceptions/upload_file_exception.dart';
 import '../../common/services/items_service.dart';
@@ -11,7 +12,7 @@ class CreateItemCubit extends Cubit<CreateItemState> {
   final ItemsService itemsService;
   final ImagesStorage imagesStorage;
 
-  CreateItemCubit({required this.itemsService, required this.imagesStorage})
+  CreateItemCubit(this.itemsService, this.imagesStorage)
       : super(CreateItemInitial());
 
   void onChangeName(String name) {
@@ -26,7 +27,7 @@ class CreateItemCubit extends Cubit<CreateItemState> {
     emit(ChangeField(name: state.name, category: state.category, image: image));
   }
 
-  void CreateItem() async {
+  void createItem() async {
     if (state.name.isEmpty) {
       emit(NameError(
           nameError: 'Name is empty',
@@ -48,7 +49,6 @@ class CreateItemCubit extends Cubit<CreateItemState> {
     emit(CreateItemLoading(
         name: state.name, category: state.category, image: state.image));
     String? imageUrl = null;
-    print(state.image);
     if (state.image != null) {
       try {
         imageUrl = await imagesStorage.uploadImage(state.image!);
@@ -58,6 +58,7 @@ class CreateItemCubit extends Cubit<CreateItemState> {
             name: state.name,
             category: state.category,
             image: state.image));
+        return;
       }
     }
 

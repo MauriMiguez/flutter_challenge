@@ -19,8 +19,7 @@ class CreateItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CreateItemCubit(
-          itemsService: ItemsService(), imagesStorage: ImagesStorage()),
+      create: (context) => CreateItemCubit(ItemsService(), ImagesStorage()),
       child: Builder(builder: (context) {
         final createItemCubit = BlocProvider.of<CreateItemCubit>(context);
         return SafeArea(
@@ -118,7 +117,7 @@ class CreateItem extends StatelessWidget {
           : ElevatedButton(
               onPressed: createItemCubit.state.category.isEmpty
                   ? null
-                  : createItemCubit.CreateItem,
+                  : createItemCubit.createItem,
               child: const Text('Create item'),
             );
     });

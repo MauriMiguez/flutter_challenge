@@ -20,6 +20,9 @@ class ChangeField extends CreateCategoryState {
 
 class NameError extends CreateCategoryState {
   final String nameError;
+
+  @override
+  List<Object> get props => [nameError, name, color];
   NameError({required this.nameError, name = String, color = Color} ){
     this.name = name;
     this.color = color;
@@ -29,6 +32,9 @@ class NameError extends CreateCategoryState {
 
 class CreateCategoryError extends CreateCategoryState {
   final String error;
+
+  @override
+  List<Object> get props => [error, name, color];
   CreateCategoryError({required this.error, name = String, color = Color}){
     this.name = name;
     this.color = color;
