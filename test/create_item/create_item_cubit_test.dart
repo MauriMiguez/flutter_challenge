@@ -79,5 +79,39 @@ void main() {
       ],
     );
 
+    blocTest<CreateItemCubit, CreateItemState>(
+      'Create item, error uploading image',
+      build: () => itemCubit!,
+      setUp: () => when(() => mockImagesRepository!.uploadImage(emptyFile))
+          .thenThrow(emptyUploadFileException),
+      seed: () => ChangeField(name: name, category: category, image: emptyFile),
+      act: (cubit) => cubit.createItem(),
+      expect: () => [
+        CreateItemLoading(name: name, category: category, image: emptyFile),
+        CreateItemError(
+            error: 'Error uploading image',
+            name: name,
+            category: category,
+            image: emptyFile),
+      ],
+    );
+
+    blocTest<CreateItemCubit, CreateItemState>(
+      'Create item, error upload image with message ',
+      build: () => itemCubit!,
+      setUp: () => when(() => mockImagesRepository!.uploadImage(emptyFile))
+          .thenThrow(messageUploadFileException),
+      seed: () => ChangeField(name: name, category: category, image: emptyFile),
+      act: (cubit) => cubit.createItem(),
+      expect: () => [
+        CreateItemLoading(name: name, category: category, image: emptyFile),
+        CreateItemError(
+            error: messageUploadFileException.message!,
+            name: name,
+            category: category,
+            image: emptyFile),
+      ],
+    );
+
   });
 }
