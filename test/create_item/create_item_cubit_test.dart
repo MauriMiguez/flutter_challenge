@@ -2,26 +2,30 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_challenge/common/services/items_service.dart';
 import 'package:flutter_challenge/create_item/bloc/create_item_cubit.dart';
 import 'package:flutter_challenge/create_item/exceptions/already_exists_item_exception.dart';
+import 'package:flutter_challenge/create_item/exceptions/upload_file_exception.dart';
 import 'package:flutter_challenge/create_item/services/images_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'dart:io';
 
-class MockItemsRepository extends Mock
-    implements ItemsService {}
+class MockItemsRepository extends Mock implements ItemsService {}
 
-class MockImagesRepository extends Mock
-    implements ImagesStorage {}
-
+class MockImagesRepository extends Mock implements ImagesStorage {}
 
 void main() {
-  group('Create item cubit testing', ()
-  {
+  group('Create item cubit testing', () {
     MockItemsRepository? mockItemsRepository;
     MockImagesRepository? mockImagesRepository;
     CreateItemCubit? itemCubit;
     String name = 'Item';
     String category = 'Category';
     AlreadyExistsItemException exception = const AlreadyExistsItemException();
+    UploadFileException emptyUploadFileException =
+        UploadFileException(message: null);
+    UploadFileException messageUploadFileException =
+        UploadFileException(message: 'Upload error');
+    File emptyFile = File('');
+    File file = File('imageUrl');
 
     setUp(() {
       mockItemsRepository = MockItemsRepository();
@@ -38,7 +42,7 @@ void main() {
       build: () => itemCubit!,
       act: (cubit) => cubit.onChangeName(name),
       expect: () => [
-        ChangeField(name:name, category: '', image: null),
+        ChangeField(name: name, category: '', image: null),
       ],
     );
 
@@ -47,7 +51,17 @@ void main() {
       build: () => itemCubit!,
       act: (cubit) => cubit.onChangeCategory(category),
       expect: () => [
-        ChangeField(name:'', category: category, image: null),
+        ChangeField(name: '', category: category, image: null),
+      ],
+    );
+
+    blocTest<CreateItemCubit, CreateItemState>(
+      'Create item, error name is empty',
+      build: () => itemCubit!,
+      act: (cubit) => cubit.createItem(),
+      expect: () => [
+        NameError(
+            nameError: 'Name is empty', name: '', category: '', image: null),
       ],
     );
   });
