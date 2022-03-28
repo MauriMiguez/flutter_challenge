@@ -113,5 +113,29 @@ void main() {
       ],
     );
 
+    blocTest<CreateItemCubit, CreateItemState>(
+      'Create item, error already registered item',
+      build: () => itemCubit!,
+      setUp: () {
+        when(() => mockImagesRepository!.uploadImage(file))
+            .thenAnswer((invocation) => Future.value(file.path));
+        when(() => mockItemsRepository!.createItem(name, file.path, category))
+            .thenThrow(exception);
+      },
+      seed: () => ChangeField(name: name, category: category, image: file),
+      act: (cubit) {
+        cubit.createItem();
+      },
+      expect: () => [
+        CreateItemLoading(name: name, category: category, image: file),
+        CreateItemError(
+            error: exception.message,
+            name: name,
+            category: category,
+            image: file)
+      ],
+    );
+
+
   });
 }
