@@ -91,5 +91,29 @@ void main() {
       ],
     );
 
+    List<CategoryWithItem>? categoryListWithCategoryOneMissingItem;
+    blocTest<ShoppingListCubit, ShoppingListState>(
+      'Delete item',
+      build: () => shoppingListCubit!,
+      setUp: () {
+        List<Item> removedItemList = List.of([item1!], growable: true);
+        CategoryWithItem categoryWithOneLessItem = CategoryWithItem(
+            name: oneCategory!.name,
+            color: oneCategory!.color,
+            items: removedItemList);
+        categoryListWithCategoryOneMissingItem =
+            List.of([categoryWithOneLessItem, twoCategory!], growable: true);
+        when(() => mockItemsRepository!.deleteItem(item2!.name))
+            .thenAnswer((invocation) => Future.value());
+      },
+      seed: () => ShoppingListLoaded(categoriesWithItems!),
+      act: (cubit) {
+        cubit.deleteItem(0, 1);
+      },
+      expect: () => [
+        ChangeShoppingList(categoryListWithCategoryOneMissingItem!),
+      ],
+    );
+
   });
 }
