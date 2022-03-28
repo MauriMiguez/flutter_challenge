@@ -71,8 +71,8 @@ class CreateItem extends StatelessWidget {
               : null,
           child: Container(
               child: ClipOval(
-            child: createItemCubit.state.image != null
-                ? Image.file(createItemCubit.state.image!,
+            child: createItemCubit.state.image.path.isNotEmpty
+                ? Image.file(createItemCubit.state.image,
                     width: 100, height: 100, fit: BoxFit.cover)
                 : Image(
                     image: AssetImage('assets/image_placeholder.png'),
