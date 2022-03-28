@@ -167,5 +167,24 @@ void main() {
       ],
     );
 
+    List<CategoryWithItem>? searchedCategory;
+    blocTest<ShoppingListCubit, ShoppingListState>(
+      'Search category',
+      build: () => shoppingListCubit!,
+      setUp: () {
+        searchedCategory =
+            List.of([twoCategory!], growable: true);
+        when(() => mockCategoriesRepository!.getCategoriesWithItems())
+            .thenAnswer((invocation) => Future.value(categoriesWithItems));
+      },
+      seed: () => ShoppingListLoaded(categoriesWithItems!),
+      act: (cubit) {
+        cubit.search(twoCategory!.name);
+      },
+      expect: () => [
+        ChangeShoppingList(searchedCategory!),
+      ],
+    );
+
   });
 }
