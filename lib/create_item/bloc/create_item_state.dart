@@ -21,7 +21,8 @@ class ChangeField extends CreateItemState {
 
 class NameError extends CreateItemState {
   final String nameError;
-
+  @override
+  List<Object> get props => [nameError, name, category];
   NameError(
       {required this.nameError,
       name = String,
@@ -35,6 +36,8 @@ class NameError extends CreateItemState {
 
 class CategoryError extends CreateItemState {
   final String categoryError;
+  @override
+  List<Object> get props => [categoryError, name, category];
 
   CategoryError(
       {required this.categoryError,
@@ -50,6 +53,8 @@ class CategoryError extends CreateItemState {
 class CreateItemError extends CreateItemState {
   final String error;
 
+  @override
+  List<Object> get props => [error, name, category];
   CreateItemError(
       {required this.error, name = String, category = String, image = File}) {
     this.name = name;

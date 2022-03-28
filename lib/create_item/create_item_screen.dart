@@ -117,7 +117,7 @@ class CreateItem extends StatelessWidget {
           : ElevatedButton(
               onPressed: createItemCubit.state.category.isEmpty
                   ? null
-                  : createItemCubit.CreateItem,
+                  : createItemCubit.createItem,
               child: const Text('Create item'),
             );
     });
