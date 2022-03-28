@@ -94,7 +94,7 @@ void main() {
         RemovedItemFromFavorite(favoriteList: expectedCategoriesWithItems!, item: item2!.name)
       ],
     );
-    
+
     List<CategoryWithItem>? reorderedCategoriesWithItems;
     blocTest<FavoriteListCubit, FavoriteListState>(
       'Reorder item',

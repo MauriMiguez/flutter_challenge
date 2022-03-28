@@ -41,75 +41,78 @@ void main() {
       'Change name',
       build: () => itemCubit!,
       act: (cubit) => cubit.onChangeName(name),
+      seed: () => ChangeField(name: '', category: '', image: emptyFile),
       expect: () => [
-        ChangeField(name: name, category: '', image: null),
+        ChangeField(name: name, category: '', image: emptyFile),
       ],
     );
 
     blocTest<CreateItemCubit, CreateItemState>(
       'Change category',
       build: () => itemCubit!,
+      seed: () => ChangeField(name: '', category: '', image: emptyFile),
       act: (cubit) => cubit.onChangeCategory(category),
       expect: () => [
-        ChangeField(name: '', category: category, image: null),
+        ChangeField(name: '', category: category, image: emptyFile),
       ],
     );
 
     blocTest<CreateItemCubit, CreateItemState>(
       'Create item, error name is empty',
       build: () => itemCubit!,
+      seed: () => ChangeField(name: '', category: '', image: emptyFile),
       act: (cubit) => cubit.createItem(),
       expect: () => [
         NameError(
-            nameError: 'Name is empty', name: '', category: '', image: null),
+            nameError: 'Name is empty', name: '', category: '', image: emptyFile),
       ],
     );
 
     blocTest<CreateItemCubit, CreateItemState>(
       'Create item, category empty',
       build: () => itemCubit!,
-      seed: () => ChangeField(name: name, category: '', image: null),
+      seed: () => ChangeField(name: name, category: '', image: emptyFile),
       act: (cubit) => cubit.createItem(),
       expect: () => [
         CategoryError(
             categoryError: 'Category not selected',
             name: name,
             category: '',
-            image: null),
+            image: emptyFile),
       ],
     );
 
     blocTest<CreateItemCubit, CreateItemState>(
       'Create item, error uploading image',
       build: () => itemCubit!,
-      setUp: () => when(() => mockImagesRepository!.uploadImage(emptyFile))
+      setUp: () => when(() => mockImagesRepository!.uploadImage(file))
           .thenThrow(emptyUploadFileException),
-      seed: () => ChangeField(name: name, category: category, image: emptyFile),
+      seed: () => ChangeField(name: name, category: category, image: file),
       act: (cubit) => cubit.createItem(),
       expect: () => [
-        CreateItemLoading(name: name, category: category, image: emptyFile),
+        CreateItemLoading(name: name, category: category, image: file),
         CreateItemError(
             error: 'Error uploading image',
             name: name,
             category: category,
-            image: emptyFile),
+            image: file),
       ],
     );
 
     blocTest<CreateItemCubit, CreateItemState>(
       'Create item, error upload image with message ',
       build: () => itemCubit!,
-      setUp: () => when(() => mockImagesRepository!.uploadImage(emptyFile))
+      setUp: () => when(() => mockImagesRepository!.uploadImage(file))
           .thenThrow(messageUploadFileException),
-      seed: () => ChangeField(name: name, category: category, image: emptyFile),
+      seed: () => ChangeField(name: name, category: category, image: file),
       act: (cubit) => cubit.createItem(),
       expect: () => [
-        CreateItemLoading(name: name, category: category, image: emptyFile),
+        CreateItemLoading(name: name, category: category, image: file),
         CreateItemError(
             error: messageUploadFileException.message!,
             name: name,
             category: category,
-            image: emptyFile),
+            image: file),
       ],
     );
 
@@ -139,17 +142,17 @@ void main() {
     blocTest<CreateItemCubit, CreateItemState>(
       'Create item',
       build: () => itemCubit!,
+      seed: () => ChangeField(name: name, category: category, image: file),
       setUp: () {
         when(() => mockImagesRepository!.uploadImage(file))
             .thenAnswer((invocation) => Future.value(file.path));
         when(() => mockItemsRepository!.createItem(name, file.path, category))
             .thenAnswer((invocation) => Future.value());
       },
-      seed: () => ChangeField(name: name, category: category, image: file),
       act: (cubit) => cubit.createItem(),
       expect: () => [
         CreateItemLoading(name: name, category: category, image: file),
-        CreateItemLoaded(category: category)
+        isA<CreateItemLoaded>()
       ],
     );
   });

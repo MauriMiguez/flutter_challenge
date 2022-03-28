@@ -3,13 +3,15 @@ part of 'create_item_cubit.dart';
 abstract class CreateItemState extends Equatable {
   String name = '';
   String category = '';
-  File? image;
+  File image = File('');
 
   @override
-  List<Object> get props => [name, category];
+  List<Object> get props => [name, category, image];
 }
 
 class CreateItemInitial extends CreateItemState {}
+
+class xd extends CreateItemState {}
 
 class ChangeField extends CreateItemState {
   ChangeField({name = String, category = String, image = File}) {
@@ -75,6 +77,6 @@ class CreateItemLoaded extends CreateItemState {
   CreateItemLoaded({category = String}) {
     name = '';
     this.category = category;
-    image = null;
+    image = File('');
   }
 }

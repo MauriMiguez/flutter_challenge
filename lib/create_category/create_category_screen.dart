@@ -12,28 +12,30 @@ class CreateCategory extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          CreateCategoryCubit(CategoriesService()),
+      create: (context) => CreateCategoryCubit(CategoriesService()),
       child: Builder(builder: (context) {
         final createCategoryCubit =
             BlocProvider.of<CreateCategoryCubit>(context);
         return SafeArea(
-          child: BlocListener<CreateCategoryCubit, CreateCategoryState>(
-            listener: (context, state) {
-              if (state is CreateCategoryLoaded) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Category successfully created!"),
-                  duration: Duration(seconds: 2),
-                ));
-              }
-              if (state is CreateCategoryError) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(state.error),
-                  duration: const Duration(seconds: 2),
-                ));
-              }
-            },
-            child: SingleChildScrollView(
+            child: BlocListener<CreateCategoryCubit, CreateCategoryState>(
+          listener: (context, state) {
+            if (state is CreateCategoryLoaded) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Category successfully created!"),
+                duration: Duration(seconds: 2),
+              ));
+            }
+            if (state is CreateCategoryError) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(state.error),
+                duration: const Duration(seconds: 2),
+              ));
+            }
+          },
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(32),
+              alignment: Alignment.center,
               child: Column(
                 children: [
                   _nameTextField(createCategoryCubit),
@@ -47,7 +49,7 @@ class CreateCategory extends StatelessWidget {
               ),
             ),
           ),
-        );
+        ));
       }),
     );
   }

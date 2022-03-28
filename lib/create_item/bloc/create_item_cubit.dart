@@ -49,9 +49,9 @@ class CreateItemCubit extends Cubit<CreateItemState> {
     emit(CreateItemLoading(
         name: state.name, category: state.category, image: state.image));
     String? imageUrl = null;
-    if (state.image != null) {
+    if (state.image.path != '') {
       try {
-        imageUrl = await imagesStorage.uploadImage(state.image!);
+        imageUrl = await imagesStorage.uploadImage(state.image);
       } on UploadFileException catch (e) {
         emit(CreateItemError(
             error: e.message != null ? e.message! : "Error uploading image",
