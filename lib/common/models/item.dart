@@ -1,5 +1,7 @@
 
-class Item {
+import 'package:equatable/equatable.dart';
+
+class Item extends Equatable {
   final String name;
   final String? imageUrl;
   final String category;
@@ -29,4 +31,7 @@ class Item {
     isFav: snapshot['isFav'],
       favDate: snapshot['favDate'].toDate()
   );
+
+  @override
+  List<Object?> get props => [name, category, isFav, category];
 }

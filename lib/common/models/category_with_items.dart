@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 import 'item.dart';
 
-class CategoryWithItem {
+class CategoryWithItem extends Equatable {
   final String name;
   final int? color;
   late List<Item>? items;
@@ -12,4 +14,7 @@ class CategoryWithItem {
   static CategoryWithItem fromSnapshot(Map<String, dynamic> snapshot) {
     return CategoryWithItem(name: snapshot['name'], color: snapshot['color']);
   }
+
+  @override
+  List<Object?> get props => [name, color, items];
 }
