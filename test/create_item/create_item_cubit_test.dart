@@ -64,5 +64,20 @@ void main() {
             nameError: 'Name is empty', name: '', category: '', image: null),
       ],
     );
+
+    blocTest<CreateItemCubit, CreateItemState>(
+      'Create item, category empty',
+      build: () => itemCubit!,
+      seed: () => ChangeField(name: name, category: '', image: null),
+      act: (cubit) => cubit.createItem(),
+      expect: () => [
+        CategoryError(
+            categoryError: 'Category not selected',
+            name: name,
+            category: '',
+            image: null),
+      ],
+    );
+
   });
 }
