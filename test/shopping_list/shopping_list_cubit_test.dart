@@ -69,5 +69,27 @@ void main() {
       ],
     );
 
+    List<CategoryWithItem>? expectedCategoriesWithItems;
+    blocTest<ShoppingListCubit, ShoppingListState>(
+      'Reorder item',
+      setUp: () {
+        List<Item> expectedItemList = List.of([item2!, item1!], growable: true);
+        CategoryWithItem copyCategory = CategoryWithItem(
+            name: oneCategory!.name,
+            color: oneCategory!.color,
+            items: expectedItemList);
+        expectedCategoriesWithItems =
+            List.of([copyCategory, twoCategory!], growable: true);
+      },
+      build: () => shoppingListCubit!,
+      seed: () => ShoppingListLoaded(categoriesWithItems!),
+      act: (cubit) {
+        cubit.reorderItem(oneCategory!, 0, 1, 0);
+      },
+      expect: () => [
+        ChangeShoppingList(expectedCategoriesWithItems!),
+      ],
+    );
+
   });
 }
