@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_challenge/common/services/categories_service.dart';
 import 'package:flutter_challenge/common/services/items_service.dart';
