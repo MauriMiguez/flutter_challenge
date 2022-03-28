@@ -70,5 +70,30 @@ void main() {
         FavoriteListLoaded(categoriesWithItems!),
       ],
     );
+
+    List<CategoryWithItem>? expectedCategoriesWithItems;
+    blocTest<FavoriteListCubit, FavoriteListState>(
+      'Unfav item',
+      setUp: () {
+        when(() => mockItemsRepository!.unFavItem(item2!.name))
+            .thenAnswer((invocation) => Future.value());
+        List<Item> unfavedItem1List = List.of([item1!], growable: true);
+        CategoryWithItem copyCategory = CategoryWithItem(
+            name: oneCategory!.name,
+            color: oneCategory!.color,
+            items: unfavedItem1List);
+        expectedCategoriesWithItems =
+            List.of([copyCategory, twoCategory!], growable: true);
+      },
+      build: () => favoritesListCubit!,
+      seed: () => FavoriteListLoaded(categoriesWithItems!),
+      act: (cubit) {
+        cubit.unFavItem(0, 1);
+      },
+      expect: () => [
+        RemovedItemFromFavorite(favoriteList: expectedCategoriesWithItems!, item: item2!.name)
+      ],
+    );
+
   });
 }
