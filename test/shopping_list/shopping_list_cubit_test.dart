@@ -148,5 +148,24 @@ void main() {
       ],
     );
 
+    List<CategoryWithItem>? categoryListWithDeletedCategory;
+    blocTest<ShoppingListCubit, ShoppingListState>(
+      'Delete category',
+      build: () => shoppingListCubit!,
+      setUp: () {
+        categoryListWithDeletedCategory =
+            List.of([twoCategory!], growable: true);
+        when(() => mockCategoriesRepository!.deleteCategory(oneCategory!.name))
+            .thenAnswer((invocation) => Future.value());
+      },
+      seed: () => ShoppingListLoaded(categoriesWithItems!),
+      act: (cubit) {
+        cubit.deleteCategory(0);
+      },
+      expect: () => [
+        ChangeShoppingList(categoryListWithDeletedCategory!),
+      ],
+    );
+
   });
 }
